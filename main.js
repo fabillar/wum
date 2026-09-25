@@ -71,3 +71,70 @@ subToggle.addEventListener("click", e => {
 document.addEventListener("click", e => {
   if (!hasSub.contains(e.target)) { hasSub.classList.remove("open"); subToggle.setAttribute("aria-expanded", "false"); }
 });
+
+// scroll reveal: fade/slide elements in as they enter the viewport
+(() => {
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const desktop = window.matchMedia("(min-width: 821px)").matches;
+  const groups = [
+    [".cats a", "zoom", 6],
+    [".duo .promo", "up", 2],
+    [".section-head", "up", 1],
+    [".slider", "up", 1],
+    [".story img", "left", 1],
+    [".story-copy", "right", 1],
+    [".news-photo", "left", 1],
+    [".news-copy", "up", 1],
+    [".news-bunny", "right", 1],
+    [".foot-main > *", "up", 5],
+    [".foot-base .base-in > *", "up", 3],
+  ];
+  if (desktop) groups.push([".hero-body", "up", 1]); // mobile hero already has its own intro animation
+  const items = [];
+  groups.forEach(([sel, variant, cols]) => {
+    document.querySelectorAll(sel).forEach((el, i) => {
+      el.classList.add("reveal");
+      if (variant !== "up") el.dataset.reveal = variant;
+      el.style.setProperty("--d", ((i % cols) * 0.09).toFixed(2) + "s");
+      items.push(el);
+    });
+  });
+  const done = el => setTimeout(() => {           // hand the element back to its normal styles (hover effects etc.)
+    el.classList.remove("reveal", "in"); el.removeAttribute("data-reveal"); el.style.removeProperty("--d");
+  }, 1500);
+  const show = el => { el.classList.add("in"); done(el); };
+  if (reduce || !("IntersectionObserver" in window)) { items.forEach(show); return; }
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { show(e.target); io.unobserve(e.target); }
+  }), { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+  items.forEach(el => io.observe(el));
+})();
+
+// featured products: max 5 visible on desktop, slides left/right when there are more
+(() => {
+  const slider = document.getElementById("slider"), track = document.getElementById("product-grid");
+  const prev = slider.querySelector(".sl-prev"), next = slider.querySelector(".sl-next");
+  const VISIBLE = 5, mq = window.matchMedia("(min-width: 1000px)");
+  let index = 0, timer;
+  const cards = () => [...track.children];
+  const max = () => Math.max(0, cards().length - VISIBLE);
+  function update() {
+    const on = mq.matches && cards().length > VISIBLE;
+    slider.classList.toggle("is-slider", on);
+    if (!on) { index = 0; track.style.transform = ""; return; }
+    index = Math.min(index, max());
+    const step = cards()[0].getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
+    track.style.transform = `translateX(${-index * step}px)`;
+    prev.disabled = index === 0; next.disabled = index === max();
+  }
+  const go = d => { index = Math.max(0, Math.min(max(), index + d)); update(); };
+  prev.addEventListener("click", () => go(-1));
+  next.addEventListener("click", () => go(1));
+  slider.addEventListener("keydown", e => { if (e.key === "ArrowLeft") go(-1); if (e.key === "ArrowRight") go(1); });
+  let sx = null;                                   // swipe support
+  track.addEventListener("pointerdown", e => { sx = e.clientX; });
+  track.addEventListener("pointerup", e => { if (sx !== null && Math.abs(e.clientX - sx) > 40) go(e.clientX < sx ? 1 : -1); sx = null; });
+  window.addEventListener("resize", () => { clearTimeout(timer); timer = setTimeout(update, 100); });
+  mq.addEventListener("change", update);
+  update();
+})();
