@@ -1,12 +1,12 @@
 // Edit this list to update Featured Products. "url" = the product's Shopee link; "rating" (1-5) and "reviews" = its real Shopee rating and review count.
 const SHOPEE = "https://shopee.ph/whatsupmommah";
 const products = [
-  { name: "Explorer Bag | Kids Travel Organizer",  price: 2500, rating: 5, reviews: 128, img: "assets/prod-explorer.jpg",   url: "https://shopee.ph/296186146/45406681205" },
-  { name: "Rope Diaper Caddy Bag",                 price: 1799, rating: 5, reviews: 95, img: "assets/prod-rope.jpg",       url: "https://shopee.ph/296186146/14001294090" },
-  { name: "Kids Compression Packing Cube Set",     price: 1795, rating: 5, reviews: 76, img: "assets/prod-cubes.jpg",      url: "https://shopee.ph/296186146/41579592811" },
-  { name: "Felt Diaper Caddy Bag",                 price: 1495, rating: 5, reviews: 64, img: "assets/prod-felt.jpg",       url: "https://shopee.ph/296186146/5469220751" },
-  { name: "Woodpecker & Worm Feeding Game",        price: 850,  rating: 5, reviews: 83, img: "assets/prod-woodpecker.jpg", url: "https://shopee.ph/296186146/48060234783" },
-  { name: "Multifunctional Push Cart Baby Walker", price: 2549, rating: 5, reviews: 52, img: "assets/prod-walker.jpg",     url: "https://shopee.ph/296186146/8864351041" },
+  { name: "Explorer Bag | Kids Travel Organizer",  price: 2500, rating: 5, reviews: 128, img: "assets/prod-explorer.jpg",   url: "https://shopee.ph/Whatsupmommah-Explorer-Bag-Kids-Travel-Organizer-Multi-Pocket-Toy-Organizer-Baby-Kids-Bag-i.296186146.45406681205" },
+  { name: "Rope Diaper Caddy Bag",                 price: 1799, rating: 5, reviews: 95, img: "assets/prod-rope.jpg",       url: "https://shopee.ph/Whatsupmommah-Rope-Diaper-Caddy-Bag-Baby-Nursery-Organizer-Cotton-Rope-Baby-Essentials-i.296186146.14001294090" },
+  { name: "Kids Compression Packing Cube Set",     price: 1795, rating: 5, reviews: 76, img: "assets/prod-cubes.jpg",      url: "https://shopee.ph/WhatsUpMommah-Kids-Compression-Packing-Cube-Set-Travel-Organizer-for-Luggage-Space-Saving-i.296186146.41579592811" },
+  { name: "Felt Diaper Caddy Bag",                 price: 1495, rating: 5, reviews: 64, img: "assets/prod-felt.jpg",       url: "https://shopee.ph/Whatsupmommah-Felt-Diaper-Caddy-Bag-Baby-Nursery-Storage-Organizer-Portable-Nappy-Diapper-Caddy-i.296186146.5469220751" },
+  { name: "Woodpecker & Worm Feeding Game",        price: 850,  rating: 5, reviews: 83, img: "assets/prod-woodpecker.jpg", url: "https://shopee.ph/Whatsupmommah-Woodpecker-Worm-Feeding-Game-by-Topbright-i.296186146.48060234783" },
+  { name: "Multifunctional Push Cart Baby Walker", price: 2549, rating: 5, reviews: 52, img: "assets/prod-walker.jpg",     url: "https://shopee.ph/Whatsupmommah-Outlet-Multifunctional-Push-Cart-Baby-Walker-with-Piano-i.296186146.8864351041" },
 ];
 
 const heart = '<svg viewBox="0 0 24 24"><path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 9c0 6-8 11-8 11z"/></svg>';
