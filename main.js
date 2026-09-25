@@ -1,12 +1,12 @@
 // Edit this list to update Featured Products. "url" = the product's Shopee link; "rating" (1-5) and "reviews" = its real Shopee rating and review count.
 const SHOPEE = "https://shopee.ph/whatsupmommah";
 const products = [
-  { name: "Explorer Bag | Kids Travel Organizer",  price: 2500, rating: 5, reviews: 128, img: "assets/prod-explorer.jpg",   url: SHOPEE },
-  { name: "Rope Diaper Caddy Bag",                 price: 1799, rating: 5, reviews: 95, img: "assets/prod-rope.jpg",       url: SHOPEE },
-  { name: "Kids Compression Packing Cube Set",     price: 1795, rating: 5, reviews: 76, img: "assets/prod-cubes.jpg",      url: SHOPEE },
-  { name: "Felt Diaper Caddy Bag",                 price: 1495, rating: 5, reviews: 64, img: "assets/prod-felt.jpg",       url: SHOPEE },
-  { name: "Woodpecker & Worm Feeding Game",        price: 850,  rating: 5, reviews: 83, img: "assets/prod-woodpecker.jpg", url: SHOPEE },
-  { name: "Multifunctional Push Cart Baby Walker", price: 2549, rating: 5, reviews: 52, img: "assets/prod-walker.jpg",     url: SHOPEE },
+  { name: "Explorer Bag | Kids Travel Organizer",  price: 2500, rating: 5, reviews: 128, img: "assets/prod-explorer.jpg",   url: "https://shopee.ph/296186146/45406681205" },
+  { name: "Rope Diaper Caddy Bag",                 price: 1799, rating: 5, reviews: 95, img: "assets/prod-rope.jpg",       url: "https://shopee.ph/296186146/14001294090" },
+  { name: "Kids Compression Packing Cube Set",     price: 1795, rating: 5, reviews: 76, img: "assets/prod-cubes.jpg",      url: "https://shopee.ph/296186146/41579592811" },
+  { name: "Felt Diaper Caddy Bag",                 price: 1495, rating: 5, reviews: 64, img: "assets/prod-felt.jpg",       url: "https://shopee.ph/296186146/5469220751" },
+  { name: "Woodpecker & Worm Feeding Game",        price: 850,  rating: 5, reviews: 83, img: "assets/prod-woodpecker.jpg", url: "https://shopee.ph/296186146/48060234783" },
+  { name: "Multifunctional Push Cart Baby Walker", price: 2549, rating: 5, reviews: 52, img: "assets/prod-walker.jpg",     url: "https://shopee.ph/296186146/8864351041" },
 ];
 
 const heart = '<svg viewBox="0 0 24 24"><path d="M12 20s-8-5-8-11a4.5 4.5 0 018-2.5A4.5 4.5 0 0120 9c0 6-8 11-8 11z"/></svg>';
@@ -15,9 +15,11 @@ grid.innerHTML = products.map(p => `
   <article class="prod">
     <button class="wish" aria-label="Save ${p.name.replace(/&/g,"&amp;")}">${heart}</button>
     <img src="${p.img}" alt="${p.name.replace(/&/g,"&amp;")}" loading="lazy">
-    <h3>${p.name.replace(/&/g,"&amp;")}</h3>
-    <div class="price">₱${p.price.toLocaleString()}</div>
-    <div class="stars" aria-label="${p.rating} out of 5 stars, ${p.reviews} reviews">${"\u2605".repeat(p.rating)}<i>(${p.reviews})</i></div>
+    <h3><a class="card-link" href="${p.url}" target="_blank" rel="noopener">${p.name.replace(/&/g,"&amp;")}</a></h3>
+    <div class="meta">
+      <div class="price">₱${p.price.toLocaleString()}</div>
+      <div class="stars" aria-label="${p.rating} out of 5 stars, ${p.reviews} reviews">${"\u2605".repeat(p.rating)}<i>(${p.reviews})</i></div>
+    </div>
     <a class="btn" href="${p.url}" target="_blank" rel="noopener">Add to Cart</a>
   </article>`).join("");
 
@@ -81,7 +83,7 @@ document.addEventListener("click", e => {
     [".duo .promo", "up", 2],
     [".section-head", "up", 1],
     [".slider", "up", 1],
-    [".story img", "left", 1],
+    [".story-media", "left", 1],
     [".story-copy", "right", 1],
     [".news-photo", "left", 1],
     [".news-copy", "up", 1],
@@ -121,11 +123,12 @@ document.addEventListener("click", e => {
   function update() {
     const on = mq.matches && cards().length > VISIBLE;
     slider.classList.toggle("is-slider", on);
-    if (!on) { index = 0; track.style.transform = ""; return; }
+    if (!on) { index = 0; track.style.transform = ""; cards().forEach(c => c.classList.remove("is-out")); return; }
     index = Math.min(index, max());
     const step = cards()[0].getBoundingClientRect().width + parseFloat(getComputedStyle(track).columnGap || 0);
     track.style.transform = `translateX(${-index * step}px)`;
     prev.disabled = index === 0; next.disabled = index === max();
+    cards().forEach((c, i) => c.classList.toggle("is-out", i < index || i >= index + VISIBLE));   // cards outside the 5 in view are invisible
   }
   const go = d => { index = Math.max(0, Math.min(max(), index + d)); update(); };
   prev.addEventListener("click", () => go(-1));
@@ -133,7 +136,9 @@ document.addEventListener("click", e => {
   slider.addEventListener("keydown", e => { if (e.key === "ArrowLeft") go(-1); if (e.key === "ArrowRight") go(1); });
   let sx = null;                                   // swipe support
   track.addEventListener("pointerdown", e => { sx = e.clientX; });
-  track.addEventListener("pointerup", e => { if (sx !== null && Math.abs(e.clientX - sx) > 40) go(e.clientX < sx ? 1 : -1); sx = null; });
+  let dragged = false;
+  track.addEventListener("pointerup", e => { dragged = sx !== null && Math.abs(e.clientX - sx) > 40; if (dragged) go(e.clientX < sx ? 1 : -1); sx = null; });
+  track.addEventListener("click", e => { if (dragged) { e.preventDefault(); e.stopPropagation(); dragged = false; } }, true);
   window.addEventListener("resize", () => { clearTimeout(timer); timer = setTimeout(update, 100); });
   mq.addEventListener("change", update);
   update();
