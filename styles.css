@@ -753,3 +753,10 @@ footer{overflow-x:clip}
 .story-bg .sb2{animation-duration:5.4s;animation-delay:-1.7s}
 .story-bg .sb3{animation-duration:4.1s;animation-delay:-3s}
 @media(prefers-reduced-motion:reduce){.story-bg .sb{animation:none}}
+
+/* mobile: logo badge and script sit side by side */
+@media(max-width:700px){
+  .base-left{flex-direction:row;justify-content:center;align-items:center;gap:1rem}
+  .base-left .script{text-align:left}
+  .logo-disc.mini{width:100px;height:100px}
+}
