@@ -760,3 +760,37 @@ footer{overflow-x:clip}
   .base-left .script{text-align:left}
   .logo-disc.mini{width:100px;height:100px}
 }
+.copy .credit{color:var(--navy);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.copy .credit:hover{color:var(--pink)}
+.copy .credit{color:inherit;font-weight:inherit;text-decoration:none}
+.copy .credit:hover{color:inherit;text-decoration:none}
+.copy .credit{font-weight:700;color:inherit;text-decoration:none}
+.copy .credit:hover{color:var(--pink)}
+
+/* footer: 4 columns now (brand, quick links, helpful info, get in touch) */
+@media(min-width:1000px){.foot-main{grid-template-columns:1.7fr 1fr 1fr 1.25fr}}
+@media(max-width:999px){.foot-main{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){
+  .foot-main .help{grid-column:auto}
+  .col.help ul{columns:1}
+}
+
+/* footer: 4 columns after removing "Shop by Category" */
+@media(min-width:1000px){.foot-main{grid-template-columns:1.7fr 1fr 1fr 1.25fr}}
+@media(max-width:999px){.foot-main{grid-template-columns:1fr 1fr 1fr}}
+@media(max-width:700px){
+  .foot-main{grid-template-columns:1fr 1fr}
+  .foot-main .help{grid-column:auto}
+  .col.help ul{columns:1}
+}
+
+/* footer bar script: one line, no badge */
+.base-left .script{white-space:nowrap;text-align:left}
+@media(max-width:700px){.base-left{justify-content:center}.base-left .script{transform:rotate(-3deg)}}
+
+/* mobile: the three badges on one row (icon above label) */
+@media(max-width:700px){
+  .badges{flex-wrap:nowrap;justify-content:space-between;gap:.3rem;width:100%}
+  .badges li{flex:1 1 0;min-width:0;flex-direction:column;align-items:center;text-align:center;gap:.35rem;font-size:.68rem}
+  .badges span{width:38px;height:38px}
+}
